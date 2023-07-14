@@ -2,7 +2,7 @@
 /**
  * main - Entry point
  *
- * Description: A C program that uses sizeof function to print various types of sizes
+ * Description: A C program that uses sizeof function to print various sizes
  *
  * Return: Always 0 (Success)
 */
