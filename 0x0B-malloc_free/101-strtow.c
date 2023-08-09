@@ -1,42 +1,66 @@
 #include "main.h"
 
 /**
- * str_concat - concatenates two strings.
- * @s1: first string.
- * @s2: second string.
+ * ch_free_grid - frees a 2 dimensional array.
+ * @grid: multidimensional array of char.
+ * @height: height of the array.
  *
- * Return: pointer of an array of chars
+ * Return: no return
  */
-char *str_concat(char *s1, char *s2)
+void ch_free_grid(char **grid, unsigned int height)
 {
-	char *strout;
-	unsigned int i, j, k, limit;
-
-	if (s1 == NULL)
-		s1 = "";
-	if (s2 == NULL)
-		s2 = "";
-
-	for (i = 0; s1[i] != '\0'; i++)
-		;
-
-	for (j = 0; s2[j] != '\0'; j++)
-		;
-
-	strout = malloc(sizeof(char) * (i + j + 1));
-
-	if (strout == NULL)
+	if (grid != NULL && height != 0)
 	{
-		free(strout);
+		for (; height > 0; height--)
+			free(grid[height]);
+		free(grid[height]);
+		free(grid);
+	}
+}
+
+/**
+ * strtow - splits a string into words.
+ * @str: string.
+ *
+ * Return: pointer of an array of integers
+ */
+char **strtow(char *str)
+{
+	char **aout;
+	unsigned int c, height, i, j, a1;
+
+	if (str == NULL || *str == '\0')
+		return (NULL);
+	for (c = height = 0; str[c] != '\0'; c++)
+		if (str[c] != ' ' && (str[c + 1] == ' ' || str[c + 1] == '\0'))
+			height++;
+	aout = malloc((height + 1) * sizeof(char *));
+	if (aout == NULL || height == 0)
+	{
+		free(aout);
 		return (NULL);
 	}
-
-	for (k = 0; k < i; k++)
-		strout[k] = s1[k];
-
-	limit = j;
-	for (j = 0; j <= limit; k++, j++)
-		strout[k] = s2[j];
-
-	return (strout);
+	for (i = a1 = 0; i < height; i++)
+	{
+		for (c = a1; str[c] != '\0'; c++)
+		{
+			if (str[c] == ' ')
+				a1++;
+			if (str[c] != ' ' && (str[c + 1] == ' ' || str[c + 1] == '\0'))
+			{
+				aout[i] = malloc((c - a1 + 2) * sizeof(char));
+				if (aout[i] == NULL)
+				{
+					ch_free_grid(aout, i);
+					return (NULL);
+				}
+				break;
+			}
+		}
+		for (j = 0; a1 <= c; a1++, j++)
+			aout[i][j] = str[a1];
+		aout[i][j] = '\0';
+	}
+	aout[i] = NULL;
+	return (aout);
 }
