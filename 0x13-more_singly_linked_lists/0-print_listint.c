@@ -8,14 +8,20 @@
  */
 size_t print_listint(const listint_t *h)
 {
+	int i;
+	listint_t *new;
+	const listint_t *node = h;
 
-	size_t dir = 0;
+	new = malloc(sizeof(listint_t));
 
-	while (h)
+	if (new == NULL)
+		return (-1);
+
+	for (i = 0; node != NULL; i++)
 	{
-		printf("%d\n", h->n);
-		h = h->next;
-		dir++;
+		printf("%d\n", node->n);
+		node = node->next;
 	}
-	return (dir);
+	free(new);
+	return (i);
 }
